@@ -1,9 +1,9 @@
 GOCC=go
 #GC_FLAGS= 
 
-TARGET = bin/fakeeyesclient
+TARGET = bin/fakeeyes_agent
 M_PREFIX = 
-M_SRC = *.go
+M_SRC = app/*.go
 # PROJECT = skyflow
 
 MAIN_PKG = cmd 

@@ -46,6 +46,10 @@ func (s svc) Init() error {
 
 	// INIT Log
 	err = initlogger()
+	if err != nil {
+		return err
+	}
+
 	return err
 }
 

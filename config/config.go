@@ -16,7 +16,6 @@ type DBConfig struct {
 type Config struct {
 	Fakeeyes struct {
 		Server string `json:"Server"`
-		Name   string `json:"Name"`
 	}
 }
 

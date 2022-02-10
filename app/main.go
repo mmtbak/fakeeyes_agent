@@ -2,11 +2,12 @@ package main
 
 import (
 	"fakeeyes_agent/config"
+	"fakeeyes_agent/controller"
 	"flag"
 	"fmt"
 	"os"
 
-	"github.com/goodaye/fakeeyes_client_golang/protos/request"
+	"github.com/goodaye/fakeeyes/protos/request"
 	"github.com/goodaye/wire"
 )
 
@@ -69,7 +70,7 @@ func Register() error {
 		return err
 	}
 	req := request.UserSignUp{
-		Name: config.GlobalConfig.Fakeeyes.Name,
+		// Name: config.GlobalConfig.Fakeeyes.Name,
 	}
 	_, err = fesclient.SignUp(req)
 	if err != nil {
@@ -80,5 +81,6 @@ func Register() error {
 
 func Start() error {
 
-	return nil
+	wire.Append(controller.SVC{})
+	return wire.Run()
 }
