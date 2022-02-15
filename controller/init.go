@@ -21,6 +21,7 @@ func (s SVC) Init() error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

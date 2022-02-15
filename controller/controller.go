@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fakeeyes_agent/heartbeat"
+	"fakeeyes_agent/motion"
 	"fmt"
 	"time"
 
@@ -76,17 +77,11 @@ func PrintAction(p []byte) {
 }
 
 func Motion(p []byte) {
-	var op command.Operation
+	var op command.DeviceOperation
 
 	err := proto.Unmarshal(p, &op)
 	if err != nil {
 		return
 	}
-	// 如果不是device 命令， 忽略
-	if op.Type != command.Operation_Device {
-		return
-	}
-
-	fmt.Printf("receive motion command : %d, %T, %+#v\n", op.Data.Opcode, op.Data.Opcode, op.Data.Opcode)
-
+	motion.Motion(&op)
 }
