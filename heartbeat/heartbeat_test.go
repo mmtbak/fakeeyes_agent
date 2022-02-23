@@ -2,6 +2,7 @@ package heartbeat
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 )
 
@@ -23,4 +24,9 @@ func TestCollectMacOSStat(t *testing.T) {
 	}
 	fmt.Println(info)
 
+}
+
+func TestGOOS(t *testing.T) {
+	osname := runtime.GOOS
+	fmt.Println(osname)
 }

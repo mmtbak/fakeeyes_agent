@@ -1,0 +1,12 @@
+ cp -rf ../fakeeyes/protos ./
+
+ 树莓派配置环境:
+ golang 代理
+ go env -w GOPROXY=https://goproxy.cn
+ git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+
+
+
+
+driver 
+go test -count=1  -v `ls drivers/raspberry/*.go |grep -v '_test'` drivers/raspberry/raspberry_test.go -test.run TestMotion
