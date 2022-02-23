@@ -10,3 +10,8 @@
 
 driver 
 go test -count=1  -v `ls drivers/raspberry/*.go |grep -v '_test'` drivers/raspberry/raspberry_test.go -test.run TestMotion
+
+
+
+heartbeat
+go test -count=1  -v `ls heartbeat/*.go |grep -v '_test'` heartbeat/heartbeat_test.go -test.run TestGOOS
