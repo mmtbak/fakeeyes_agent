@@ -64,6 +64,8 @@ github.com/goodaye/fakeeyes v0.0.0-20220215174144-480740ad242c h1:gqT5Ahe4kh06Pw
 github.com/goodaye/fakeeyes v0.0.0-20220215174144-480740ad242c/go.mod h1:qc+CJzp8EtzyZO1ErZpqXDKRRP4VSzyoCtTPSlAKQgM=
 github.com/goodaye/fakeeyes v0.0.0-20220215191513-a93d608e45d9 h1:gdPE1/4M/UrRIDLwVkZiwjwJblLn7kUC57MebUHvP8w=
 github.com/goodaye/fakeeyes v0.0.0-20220215191513-a93d608e45d9/go.mod h1:qc+CJzp8EtzyZO1ErZpqXDKRRP4VSzyoCtTPSlAKQgM=
+github.com/goodaye/fakeeyes v0.0.0-20220223172830-29a460109b04 h1:SRUGgG0JhHx74fM/j6j+3RWQyD93FiPRAFT0wnQ5dDg=
+github.com/goodaye/fakeeyes v0.0.0-20220223172830-29a460109b04/go.mod h1:qc+CJzp8EtzyZO1ErZpqXDKRRP4VSzyoCtTPSlAKQgM=
 github.com/goodaye/fakeeyes_client_golang v0.0.0-20220124170327-696abb6fca16 h1:YgIHWaNvGuuxlsecvuPCOnMqf+Qo9vrzudgq7roQVo8=
 github.com/goodaye/fakeeyes_client_golang v0.0.0-20220124170327-696abb6fca16/go.mod h1:6cUICR1MQqzeeQujT4vn5Omg+cthi8BCR03Cdk3fcn0=
 github.com/goodaye/fakeeyes_client_golang v0.0.0-20220208104606-ff8118fda712 h1:rXkNDuw0fqQyJO8uEamNuFvtzg/RfnVnj0yXNc2hupA=

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fakeeyes_agent/heartbeat"
 	"fmt"
 	"testing"
 
@@ -17,7 +16,7 @@ func TestDeviceRegister(t *testing.T) {
 	// devinfo := request.DeviceInfo{
 	// 	SN: "testdevice",
 	// }
-	info, err := heartbeat.CollectDeviceStat()
+	info, err := localmachine.CollectDeviceInfo()
 	if err != nil {
 		fmt.Println(err)
 		return

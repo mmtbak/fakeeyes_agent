@@ -1,14 +1,14 @@
-package heartbeat
+package machine
 
 import (
 	"os/exec"
 	"regexp"
-	"runtime"
 
-	"github.com/goodaye/fakeeyes/protos"
 	"github.com/goodaye/fakeeyes/protos/request"
-	"github.com/shirou/gopsutil/v3/host"
 )
+
+// REMacOSStat 编译好的表达式
+var REMacOSStat *regexp.Regexp
 
 func init() {
 
@@ -17,31 +17,9 @@ func init() {
 
 var REPatternMacOSState = `\s*(?P<Key>\w.*)\s*:\s*(?P<Value>\w.*)\s+`
 
-// REMacOSStat 编译好的表达式
-var REMacOSStat *regexp.Regexp
+type MacMachine struct{}
 
-func CollectDeviceInfo() (*host.InfoStat, error) {
-	info, err := host.Info()
-	return info, err
-}
-
-func CollectDeviceStat() (request.DeviceInfo, error) {
-
-	var info = request.DeviceInfo{}
-	var err error
-
-	osname := runtime.GOOS
-
-	switch osname {
-	case protos.DevicePlatform.Darwin:
-		info, err = CollectMacOSStat()
-	}
-
-	return info, err
-
-}
-
-func CollectMacOSStat() (info request.DeviceInfo, err error) {
+func (m MacMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
 
 	// 硬件信息
 	// cmdstr := "/usr/sbin/system_profiler SPHardwareDataType"

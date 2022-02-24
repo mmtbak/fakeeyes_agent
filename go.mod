@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/BurntSushi/toml v1.0.0
-	github.com/goodaye/fakeeyes v0.0.0-20220215191513-a93d608e45d9
+	github.com/goodaye/fakeeyes v0.0.0-20220223172830-29a460109b04
 	github.com/goodaye/wire v0.0.0-20210421042659-3e01f5ce5de3
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
 	github.com/pkg/errors v0.9.1

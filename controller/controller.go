@@ -1,10 +1,8 @@
 package controller
 
 import (
-	"fakeeyes_agent/heartbeat"
 	"fakeeyes_agent/motion"
 	"fmt"
-	"time"
 
 	"github.com/goodaye/fakeeyes/protos/command"
 	client "github.com/goodaye/fakeeyes_client_golang"
@@ -14,29 +12,12 @@ import (
 
 func Register() (dev *client.Device, err error) {
 
-	devinfo, err := heartbeat.CollectDeviceStat()
+	devinfo, err := localmachine.CollectDeviceInfo()
 	if err != nil {
 		return
 	}
 	dev, err = fesclient.RegisterDevice(devinfo)
 	return
-}
-
-func SendHeartBeat() {
-
-	// var err error
-	for {
-		time.Sleep(10 * time.Minute)
-		devinfo, err := heartbeat.CollectDeviceStat()
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-		err = deviceclient.SendHeartBeat(devinfo)
-		if err != nil {
-			fmt.Println(err)
-		}
-	}
 }
 
 func Start() error {
