@@ -15,7 +15,8 @@ func TestMacMachine(t *testing.T) {
 	mac := MacMachine{}
 	info, err := mac.CollectDeviceInfo()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 	fmt.Println(info)
 }

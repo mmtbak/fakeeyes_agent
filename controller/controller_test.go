@@ -5,10 +5,20 @@ import (
 	"testing"
 
 	client "github.com/goodaye/fakeeyes_client_golang"
+	"github.com/goodaye/wire"
 )
 
 func init() {
-	fesclient, _ = client.NewClient("http://127.0.0.1:8080/")
+	var err error
+	fesclient, err = client.NewClient("http://127.0.0.1:8080/")
+	if err != nil {
+		panic(err)
+	}
+	wire.Append(SVC{})
+	err = wire.Init()
+	if err != nil {
+		panic(err)
+	}
 }
 
 func TestDeviceRegister(t *testing.T) {
