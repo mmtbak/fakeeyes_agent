@@ -1,11 +1,13 @@
-package machine
+package macos
 
 import (
 	"encoding/json"
+	"fakeeyes_agent/drivers/vm"
 	"fmt"
 	"os/exec"
 	"regexp"
 
+	"github.com/goodaye/fakeeyes/protos/command"
 	"github.com/goodaye/fakeeyes/protos/request"
 )
 
@@ -17,9 +19,21 @@ func init() {
 	MacOSREStat = regexp.MustCompile(MacOSStatPattern)
 }
 
-type MacMachine struct{}
+type MacOSDriver struct {
+	vm.DesktopVM
+}
 
-func (m MacMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
+func (m MacOSDriver) HealthCheck() error {
+
+	return nil
+}
+func (m MacOSDriver) Motion(op *command.DeviceOperation) error {
+
+	fmt.Println(op.Opcode)
+	return nil
+}
+
+func (m MacOSDriver) CollectDeviceInfo() (info request.DeviceInfo, err error) {
 
 	// 硬件信息
 	// cmdstr := "/usr/sbin/system_profiler SPHardwareDataType"
@@ -147,5 +161,6 @@ func (m MacMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
 
 }
 
-func (m MacMachine) Name() {
+func (m MacOSDriver) Name() string {
+	return "Mac Machine"
 }

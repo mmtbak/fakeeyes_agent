@@ -69,14 +69,12 @@ func (r RaspberryMachine) CollectDeviceInfo() (info request.DeviceInfo, err erro
 			info.CPUSocket = val
 		case "Vendor ID":
 			info.CPUVendor = m[2]
-
 		case "Model":
 			info.CPUModelID = m[2]
 		case "Model name":
 			info.CPUModel = m[2]
 		case "CPU max MHz":
 			info.CPUSpeed = m[2]
-
 		}
 	}
 

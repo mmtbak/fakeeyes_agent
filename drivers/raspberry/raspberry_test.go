@@ -7,13 +7,13 @@ import (
 	"github.com/goodaye/fakeeyes/protos/command"
 )
 
-var rasp *Raspberry
+var rasp *RaspberryMachine
 
 func init() {
 
 	var err error
 	var address = "http://127.0.0.1:5000"
-	rasp, err = NewRaspberry(address)
+	rasp, err = NewRaspberryDriver(address)
 	if err != nil {
 		panic(err)
 	}

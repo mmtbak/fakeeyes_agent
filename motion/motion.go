@@ -1,7 +1,11 @@
 package motion
 
-import "github.com/goodaye/fakeeyes/protos/command"
+import (
+	"fakeeyes_agent/drivers"
 
-func Motion(op *command.DeviceOperation) {
-	driver.Motion(op)
+	"github.com/goodaye/fakeeyes/protos/command"
+)
+
+func Motion(m drivers.Machine, op *command.DeviceOperation) {
+	m.Motion(op)
 }

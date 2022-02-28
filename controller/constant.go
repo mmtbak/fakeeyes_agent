@@ -1,4 +1,4 @@
-package machine
+package controller
 
 // 设备平台
 var DevicePlatform = struct {

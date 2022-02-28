@@ -2,7 +2,7 @@ package controller
 
 import (
 	"fakeeyes_agent/config"
-	"fakeeyes_agent/machine"
+	"fakeeyes_agent/drivers"
 
 	client "github.com/goodaye/fakeeyes_client_golang"
 	"github.com/goodaye/wire"
@@ -12,7 +12,7 @@ var fesclient *client.Client
 
 var deviceclient *client.Device
 
-var localmachine machine.Machine
+var localmachine drivers.Machine
 
 type SVC struct {
 	wire.BaseService
@@ -24,7 +24,7 @@ func (s SVC) Init() error {
 	if err != nil {
 		return err
 	}
-	localmachine, err = machine.DetectMachine()
+	localmachine, err = DetectMachine()
 	if err != nil {
 		return err
 	}

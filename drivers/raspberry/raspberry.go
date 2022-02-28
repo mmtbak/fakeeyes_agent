@@ -1,126 +1,111 @@
 package raspberry
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io"
 	"io/ioutil"
-	"net/http"
-	"net/url"
-	"path"
-	"strings"
+	"os/exec"
+	"regexp"
+	"strconv"
 
 	"github.com/goodaye/fakeeyes/protos/command"
-	"github.com/goodaye/fakeeyes/protos/response"
-	"google.golang.org/protobuf/proto"
+	"github.com/goodaye/fakeeyes/protos/request"
 )
 
-var APIPrefix = ""
+// RaspberryOSREStat  MacOS RE State MacOS 正则表达式 编译好的表达式
+var RaspberryOSREStat *regexp.Regexp
+var RaspberryOSStatPattern = `\s*(?P<Key>\w.*)\s*:\s*(?P<Value>\w.*)\s+`
 
-type Raspberry struct {
-	address string
-	url     *url.URL
+func init() {
+	RaspberryOSREStat = regexp.MustCompile(RaspberryOSStatPattern)
 }
 
-func NewRaspberry(address string) (*Raspberry, error) {
+type RaspberryMachine struct {
+	client *Client
+}
 
-	r := Raspberry{
-		address: address,
-	}
+func NewRaspberryDriver(address string) (*RaspberryMachine, error) {
 
-	url, err := url.Parse(address)
+	clt, err := NewClient(address)
 	if err != nil {
 		return nil, err
 	}
-	r.url = url
-
+	r := RaspberryMachine{
+		client: clt,
+	}
 	return &r, nil
 }
 
-func (r *Raspberry) Init() error {
-
+func (r *RaspberryMachine) Init() error {
 	return nil
 }
 
-//
-func (r *Raspberry) httpproxy(api string, req interface{}, resp interface{}, header http.Header) error {
-	var err error
-
-	relurl := path.Join(APIPrefix, api)
-	u, err := url.Parse(relurl)
-	if err != nil {
-		return err
-	}
-	queryURL := r.url.ResolveReference(u).String()
-	var reader io.Reader
-	var reqstr string
-	if req == nil {
-		reader = strings.NewReader("")
-	} else if bydata, ok := req.([]byte); ok {
-		reader = bytes.NewReader(bydata)
-	} else {
-
-		reqbody, err := json.Marshal(req)
-		if err != nil {
-			return err
-		}
-		reqstr = string(reqbody)
-		reader = strings.NewReader(reqstr)
-	}
-	httpreq, err := http.NewRequest(http.MethodPost, queryURL, reader)
-	if err != nil {
-		return err
-	}
-	// sb := c.sign(reqstr)
-	// httpreq.Header.Add("Timestamp", fmt.Sprintf("%d", sb.Timestamp))
-	// httpreq.Header.Add("Signature", sb.Sign)
-	// httpreq.Header.Add("Accesskey", sb.Accesskey)
-	if header != nil {
-		httpreq.Header = header
-	}
-	httpclt := http.Client{}
-	httpresp, err := httpclt.Do(httpreq)
-	if err != nil {
-		return err
-	}
-	defer httpresp.Body.Close()
-	body, err := ioutil.ReadAll(httpresp.Body)
-	if err != nil {
-		return err
-	}
-	if httpresp.StatusCode != http.StatusOK {
-		return fmt.Errorf("HTTP Code: %d , HTTP Response: %s ", httpresp.StatusCode, string(body))
-	}
-	rm := response.ReturnMessage{}
-
-	err = json.Unmarshal(body, &rm)
-	if err != nil {
-		return err
-	}
-	if !rm.Success {
-		err = fmt.Errorf("ErrorCode: %s  ErrorMessage: %s", rm.ErrorCode, rm.ErrorMessage)
-		return err
-	}
-	if resp == nil {
-		return nil
-	}
-	err = json.Unmarshal(body, resp)
-	return err
+func (r *RaspberryMachine) Motion(op *command.DeviceOperation) (err error) {
+	return r.client.Motion(op)
 }
-func (r *Raspberry) HealthCheck() error {
-	api := "/api/healthcheck"
-	err := r.httpproxy(api, nil, nil, nil)
-	return err
-}
-func (r *Raspberry) Motion(op *command.DeviceOperation) (err error) {
 
-	api := "/api/motion"
-	req, err := proto.Marshal(op)
+func (r *RaspberryMachine) HealthCheck() error {
+	return r.client.HealthCheck()
+}
+func (r *RaspberryMachine) Name() string {
+	return "Raspberry"
+}
+
+func (r *RaspberryMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
+
+	cpuinfo, err := ioutil.ReadFile("/proc/cpuinfo")
 	if err != nil {
 		return
 	}
-	fmt.Println(req)
-	err = r.httpproxy(api, req, nil, nil)
+
+	// systemresult
+	matches := RaspberryOSREStat.FindAllStringSubmatch(string(cpuinfo), -1)
+	// fmt.Println(match)
+
+	for _, m := range matches {
+		switch m[1] {
+		case "Serial":
+			info.SN = m[2]
+		case "Model":
+			info.ModelName = m[2]
+		case "Serial Number (system)":
+			info.SN = m[2]
+		}
+	}
+	// 获得CPU信息
+	cpucmd := exec.Command("lscpu")
+	result, err := cpucmd.CombinedOutput()
+	if err != nil {
+		return
+	}
+	// cpu regex
+	matches = RaspberryOSREStat.FindAllStringSubmatch(string(result), -1)
+
+	for _, m := range matches {
+		switch m[1] {
+		case "Architectur":
+			info.CPUArch = m[2]
+		case "CPU(s)":
+			var val int
+			val, err = strconv.Atoi(m[2])
+			if err != nil {
+				return
+			}
+			info.CPUCores = val
+		case "Socket(s)":
+			var val int
+			val, err = strconv.Atoi(m[2])
+			if err != nil {
+				return
+			}
+			info.CPUSocket = val
+		case "Vendor ID":
+			info.CPUVendor = m[2]
+		case "Model":
+			info.CPUModelID = m[2]
+		case "Model name":
+			info.CPUModel = m[2]
+		case "CPU max MHz":
+			info.CPUSpeed = m[2]
+		}
+	}
 	return
 }

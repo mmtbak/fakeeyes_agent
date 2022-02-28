@@ -1,6 +1,7 @@
-package machine
+package controller
 
 import (
+	"fakeeyes_agent/drivers/macos"
 	"fmt"
 	"runtime"
 	"testing"
@@ -12,7 +13,7 @@ func TestGOOS(t *testing.T) {
 }
 
 func TestMacMachine(t *testing.T) {
-	mac := MacMachine{}
+	mac := macos.MacOSDriver{}
 	info, err := mac.CollectDeviceInfo()
 	if err != nil {
 		fmt.Println(err)
