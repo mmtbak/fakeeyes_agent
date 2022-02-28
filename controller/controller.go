@@ -38,7 +38,8 @@ func Connect() (err error) {
 	for {
 		mt, p, err := conn.ReadMessage()
 		if err != nil {
-			break
+			// 自动重连
+			continue
 		}
 		switch mt {
 		case websocket.TextMessage:
