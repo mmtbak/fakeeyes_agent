@@ -1,16 +1,18 @@
 # fakeeyes_agent
 
 代码包说明
-* app 程序入口， 加载配置文件
-* config 配置文件解析
-* controller 控制器 主要控制逻辑， 保持server链接，解析指令、消费指令
-* drivers 驱动包实现， 
-    * macos Mac设备作为agent实现
-    * x86linux x86服务器Linux的agent实现
-    * raspberry 树莓派实现
-* motion 移动操作控制
-* video 视频控制
-* audio 控制
+|- app 程序入口， 加载配置文件
+|- config 配置文件解析
+|- controller 控制器 主要控制逻辑， 保持server链接，解析指令、消费指令
+|- drivers 驱动包实现， 
+    |- macos Mac设备作为agent实现
+    |- x86linux x86服务器Linux的agent实现
+    |- raspberry 树莓派实现
+|- module 设备内的功能模块
+    |- camera 相机
+    |- motion 移动操作控制
+    |- video 视频控制
+    |- audio 控制
 
 ## drivers
 对接具体设备平台的实现, 不同平台设备下有不同的控制实现

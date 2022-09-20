@@ -22,6 +22,9 @@ bin
 *.so
 *.sw[op]
 
+#python 
+myenv
+__pycache__
 
 #specified
 webapi/webapi

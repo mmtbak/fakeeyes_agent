@@ -1,16 +1,16 @@
 package controller
 
 import (
-	"fakeeyes_agent/drivers"
-	"fakeeyes_agent/drivers/macos"
-	"fakeeyes_agent/drivers/raspberry"
-	"fakeeyes_agent/drivers/x86linux"
+	"fakeeyes_agent/machine"
+	"fakeeyes_agent/machine/macos"
+	"fakeeyes_agent/machine/raspberry"
+	"fakeeyes_agent/machine/x86linux"
 	"fmt"
 	"runtime"
 	"strings"
 )
 
-func DetectMachine() (m drivers.Machine, err error) {
+func DetectMachine() (m machine.Machine, err error) {
 
 	osname := runtime.GOOS
 	arch := runtime.GOARCH

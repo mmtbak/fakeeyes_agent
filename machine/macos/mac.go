@@ -2,7 +2,7 @@ package macos
 
 import (
 	"encoding/json"
-	"fakeeyes_agent/drivers/vm"
+	"fakeeyes_agent/machine/vm"
 	"fmt"
 	"os/exec"
 	"regexp"
@@ -23,6 +23,10 @@ type MacOSDriver struct {
 	vm.DesktopVM
 }
 
+func (m MacOSDriver) Init() error {
+
+	return nil
+}
 func (m MacOSDriver) HealthCheck() error {
 
 	return nil

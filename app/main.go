@@ -33,6 +33,8 @@ func main() {
 		err = Register()
 	case "start":
 		err = Start()
+	case "start_local_server":
+		err = Start()
 	default:
 		err = fmt.Errorf("unspport command :%s", command)
 	}
@@ -80,6 +82,12 @@ func Register() error {
 }
 
 func Start() error {
+
+	wire.Append(controller.SVC{})
+	return wire.Run()
+}
+
+func StartLocal() error {
 
 	wire.Append(controller.SVC{})
 	return wire.Run()

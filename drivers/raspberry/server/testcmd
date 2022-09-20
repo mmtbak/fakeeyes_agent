@@ -1,0 +1,8 @@
+ 安装venv
+
+ mkdir myproject
+$ cd myproject
+$ python3 -m venv myenv
+
+激活venv
+. myenv/bin/activate

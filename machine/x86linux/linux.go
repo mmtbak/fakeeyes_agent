@@ -1,7 +1,7 @@
 package x86linux
 
 import (
-	"fakeeyes_agent/drivers/vm"
+	"fakeeyes_agent/machine/vm"
 
 	"github.com/goodaye/fakeeyes/protos/request"
 )

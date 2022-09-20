@@ -1,16 +1,15 @@
-package drivers
+package macos
 
 import (
-	"fakeeyes_agent/drivers/macos"
 	"fmt"
 	"testing"
 )
 
 func TestMacMachine(t *testing.T) {
 
-	var m Machine
+	var m MacOSDriver
 	var err error
-	m = macos.MacOSDriver{}
+	m = MacOSDriver{}
 	err = m.Init()
 	if err != nil {
 		fmt.Println(err)

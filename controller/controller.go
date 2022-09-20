@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fakeeyes_agent/motion"
+	"fakeeyes_agent/module/motion"
 	"fmt"
 
 	"github.com/goodaye/fakeeyes/protos/command"

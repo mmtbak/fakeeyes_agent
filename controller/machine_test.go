@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"fakeeyes_agent/drivers/macos"
+	"fakeeyes_agent/machine/macos"
 	"fmt"
 	"runtime"
 	"testing"

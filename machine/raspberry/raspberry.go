@@ -1,11 +1,13 @@
-package machine
+package raspberry
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os/exec"
 	"regexp"
 	"strconv"
 
+	"github.com/goodaye/fakeeyes/protos/command"
 	"github.com/goodaye/fakeeyes/protos/request"
 )
 
@@ -19,6 +21,9 @@ func init() {
 
 type RaspberryMachine struct{}
 
+func (r RaspberryMachine) Init() (err error) {
+	return nil
+}
 func (r RaspberryMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
 
 	cpuinfo, err := ioutil.ReadFile("/proc/cpuinfo")
@@ -79,4 +84,14 @@ func (r RaspberryMachine) CollectDeviceInfo() (info request.DeviceInfo, err erro
 	}
 
 	return
+}
+
+func (m RaspberryMachine) Motion(op *command.DeviceOperation) error {
+
+	fmt.Println(op.Opcode)
+	return nil
+}
+
+func (m RaspberryMachine) Name() string {
+	return "Raspberry"
 }
