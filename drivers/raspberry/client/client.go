@@ -1,4 +1,4 @@
-package raspberry
+package client
 
 import (
 	"bytes"
@@ -38,7 +38,7 @@ func NewClient(address string) (*Client, error) {
 	return &r, nil
 }
 
-//
+//httpproxy
 func (c *Client) httpproxy(api string, req interface{}, resp interface{}, header http.Header) error {
 	var err error
 
@@ -67,10 +67,6 @@ func (c *Client) httpproxy(api string, req interface{}, resp interface{}, header
 	if err != nil {
 		return err
 	}
-	// sb := c.sign(reqstr)
-	// httpreq.Header.Add("Timestamp", fmt.Sprintf("%d", sb.Timestamp))
-	// httpreq.Header.Add("Signature", sb.Sign)
-	// httpreq.Header.Add("Accesskey", sb.Accesskey)
 	if header != nil {
 		httpreq.Header = header
 	}
@@ -103,11 +99,14 @@ func (c *Client) httpproxy(api string, req interface{}, resp interface{}, header
 	err = json.Unmarshal(body, resp)
 	return err
 }
+
 func (c *Client) HealthCheck() error {
 	api := "/api/healthcheck"
 	err := c.httpproxy(api, nil, nil, nil)
 	return err
 }
+
+// Motion motion
 func (c *Client) Motion(op *command.DeviceOperation) (err error) {
 
 	api := "/api/motion"

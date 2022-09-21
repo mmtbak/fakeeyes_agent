@@ -1,4 +1,4 @@
-package raspberry
+package client
 
 // ResponseMessage  Http API response data struct
 type ResponseMessage struct {

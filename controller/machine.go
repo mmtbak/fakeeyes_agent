@@ -14,10 +14,6 @@ func DetectMachine() (m machine.Machine, err error) {
 
 	osname := runtime.GOOS
 	arch := runtime.GOARCH
-	// hostname, err := os.Hostname()
-	// if err != nil {
-	// 	return
-	// }
 	if osname == DevicePlatform.Darwin {
 		// 如果是mac电脑
 		m = macos.MacOSDriver{}

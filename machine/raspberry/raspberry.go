@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strconv"
 
+	"fakeeyes_agent/drivers/raspberry/client"
+
 	"github.com/goodaye/fakeeyes/protos/command"
 	"github.com/goodaye/fakeeyes/protos/request"
 )
@@ -19,11 +21,20 @@ func init() {
 	RaspberryOSREStat = regexp.MustCompile(RaspberryOSStatPattern)
 }
 
-type RaspberryMachine struct{}
+type RaspberryMachine struct {
+	client *client.Client
+}
 
 func (r RaspberryMachine) Init() (err error) {
+	//start service
+	//start client herer
 	return nil
 }
+
+func (m RaspberryMachine) Name() string {
+	return "Raspberry"
+}
+
 func (r RaspberryMachine) CollectDeviceInfo() (info request.DeviceInfo, err error) {
 
 	cpuinfo, err := ioutil.ReadFile("/proc/cpuinfo")
@@ -90,8 +101,4 @@ func (m RaspberryMachine) Motion(op *command.DeviceOperation) error {
 
 	fmt.Println(op.Opcode)
 	return nil
-}
-
-func (m RaspberryMachine) Name() string {
-	return "Raspberry"
 }

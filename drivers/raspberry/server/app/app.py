@@ -1,8 +1,10 @@
 
+import imp
 from flask import request
 from flask import Flask
 from motion import Motion
 from protos.command_pb2 import DeviceOperation, OperateCode
+from gpio import initgpio
 
 import response
 app = Flask(__name__)
@@ -35,5 +37,5 @@ def motion():
 
 
 if __name__ == "__main__":
-    initgrio()
+    initgpio()
     app.run()
