@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os/exec"
+	"path"
 	"regexp"
 	"strconv"
 
-	"fakeeyes_agent/drivers/raspberry/client"
+	"fakeeyes_agent/machine/raspberry/client"
 
 	"github.com/goodaye/fakeeyes/protos/command"
 	"github.com/goodaye/fakeeyes/protos/request"
@@ -16,6 +17,9 @@ import (
 // RaspberryOSREStat  MacOS RE State MacOS 正则表达式 编译好的表达式
 var RaspberryOSREStat *regexp.Regexp
 var RaspberryOSStatPattern = `\s*(?P<Key>\w.*)\s*:\s*(?P<Value>\w.*)\s+`
+var driverpath = "./drivers"
+var serverpath = "/raspberry"
+var defaultport = 5000
 
 func init() {
 	RaspberryOSREStat = regexp.MustCompile(RaspberryOSStatPattern)
@@ -25,10 +29,30 @@ type RaspberryMachine struct {
 	client *client.Client
 }
 
-func (r RaspberryMachine) Init() (err error) {
+func (r *RaspberryMachine) Init() (err error) {
 	//start service
 	//start client herer
+	r.StartLocalServer()
+	address := fmt.Sprintf("http://127.0.0.1:%d", defaultport)
+	r.client, err = client.NewClient(address)
+	if err != nil {
+		return err
+	}
 	return nil
+}
+
+// StartLocalServer ....
+func (r RaspberryMachine) StartLocalServer() error {
+	fullpath := path.Join(driverpath, serverpath, "start.sh")
+	// cmd := fmt.Sprintf("%s %d", fullpath, defaultport)
+	c := exec.Command(fullpath, "5000")
+	output, err := c.CombinedOutput()
+	if err != nil {
+		fmt.Println(string(output))
+		return err
+	}
+	err = r.client.HealthCheck()
+	return err
 }
 
 func (m RaspberryMachine) Name() string {

@@ -15,6 +15,7 @@ require (
 )
 
 require (
+	github.com/go-playground/assert/v2 v2.2.0 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/jonboulle/clockwork v0.2.2 // indirect
 	github.com/judwhite/go-svc v1.2.1 // indirect
