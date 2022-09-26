@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	"github.com/go-playground/assert/v2"
 )
@@ -29,7 +30,13 @@ func TestMontion(t *testing.T) {
 
 	fmt.Println("wd :", wd)
 	m := RaspberryMachine{}
-	err = m.StartLocalServer()
+	go func() {
+		err = m.StartLocalServer()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}()
+	time.Sleep(1 * time.Second)
+	err = m.client.HealthCheck()
 	assert.Equal(t, err, nil)
-
 }
